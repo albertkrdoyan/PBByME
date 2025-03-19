@@ -74,7 +74,6 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <None Include="packages.config" />
-    <None Include="phonebookdb.db" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -99,6 +98,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\b1bf910ac9b67d31894a1ec02288da0a1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\confirm-button-hi.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\close-button-png-17.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.119.0\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets" Condition="Exists('packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.119.0\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets')" />
