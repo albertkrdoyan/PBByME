@@ -1,0 +1,13 @@
+C:\Users\alber\Desktop\GitHub\PBByME V1.0\bin\Debug\PBByME V1.0.exe.config
+C:\Users\alber\Desktop\GitHub\PBByME V1.0\bin\Debug\PBByME V1.0.exe
+C:\Users\alber\Desktop\GitHub\PBByME V1.0\bin\Debug\PBByME V1.0.pdb
+C:\Users\alber\Desktop\GitHub\PBByME V1.0\obj\Debug\PBByME V1.0.csproj.AssemblyReference.cache
+C:\Users\alber\Desktop\GitHub\PBByME V1.0\obj\Debug\PBByME_V1._0.Properties.Resources.resources
+C:\Users\alber\Desktop\GitHub\PBByME V1.0\obj\Debug\PBByME V1.0.csproj.GenerateResource.cache
+C:\Users\alber\Desktop\GitHub\PBByME V1.0\obj\Debug\PBByME V1.0.csproj.CoreCompileInputs.cache
+C:\Users\alber\Desktop\GitHub\PBByME V1.0\obj\Debug\PBByME V1.0.exe
+C:\Users\alber\Desktop\GitHub\PBByME V1.0\obj\Debug\PBByME V1.0.pdb
+C:\Users\alber\Desktop\GitHub\PBByME V1.0\obj\Debug\PBByME_V1._0.Form1.resources
+C:\Users\alber\Desktop\GitHub\PBByME V1.0\bin\Debug\System.Data.SQLite.dll
+C:\Users\alber\Desktop\GitHub\PBByME V1.0\bin\Debug\System.Data.SQLite.xml
+C:\Users\alber\Desktop\GitHub\PBByME V1.0\obj\Debug\PBByME V.81C128D8.Up2Date
