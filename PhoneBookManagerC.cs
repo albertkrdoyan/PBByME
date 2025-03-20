@@ -102,6 +102,7 @@ namespace PBByME_V1._0
             }
             catch (Exception ex)
             {
+                MessageBox.Show(ex.Message);
                 //Console.WriteLine(ex.Message);
                 is_conn_open = false;
             }
@@ -140,6 +141,18 @@ namespace PBByME_V1._0
             sqlite_cmd.ExecuteNonQuery();
         }
 
+        protected void RemoveDataFromDB(int id)
+        {
+            if (!is_conn_open) return;
+
+            SQLiteCommand sqlite_cmd;
+            sqlite_cmd = sql_conn.CreateCommand();
+
+            sqlite_cmd.CommandText = $"DELETE FROM users WHERE id='{id}';";
+
+            sqlite_cmd.ExecuteNonQuery();
+        }
+
         protected void ReadData()
         {
             if (!is_conn_open) return;
@@ -153,7 +166,7 @@ namespace PBByME_V1._0
             string readdata;
             while (sqlite_datareader.Read())
             {
-                readdata = $"ID: {sqlite_datareader.GetInt32(0).ToString()}, Name:";
+                readdata = $"ID: {sqlite_datareader.GetInt32(0)}, Name:";
 
                 for (int i = 1; i < 4; ++i)
                 {
@@ -167,7 +180,7 @@ namespace PBByME_V1._0
             }
         }
 
-        protected void FillDataInList(ref List<PhoneBookC> list)
+        protected void FillDataInList(ref Dictionary<int, PhoneBookC> list)
         {
             if (!is_conn_open) return;
 
@@ -179,7 +192,7 @@ namespace PBByME_V1._0
 
             while (sqlite_datareader.Read())
             {
-                list.Add(new PhoneBookC
+                list.Add(sqlite_datareader.GetInt32(0), new PhoneBookC
                 {
                     ID = sqlite_datareader.GetInt32(0),
                     FirstName = sqlite_datareader.GetString(1),
@@ -195,42 +208,65 @@ namespace PBByME_V1._0
 
     class PhoneBookSqlManager : DB
     {
-        List<PhoneBookC> list;
+        private Dictionary<int, PhoneBookC> listP;
+
+        public int LastID
+        {
+            get
+            {
+                return this.last_user_index;
+            }
+        }
+
+        public Dictionary<int, PhoneBookC> ListP
+        {
+            get
+            {
+                return listP;
+            }
+        }
 
         public PhoneBookSqlManager()
         {
-            list = new List<PhoneBookC>();
+            listP = new Dictionary<int, PhoneBookC>();
+            last_user_index = -1;
             // db is connecting automaitcally
 
-            this.FillDataInList(ref list);
+            this.FillDataInList(ref listP);
         }
 
         public void AddUser(string fname, string mname, string lname, string pnumber)
         {
             this.InsertDataToDB(fname, mname, lname, pnumber);
-            list.Add(new PhoneBookC(++last_user_index, fname, mname, lname, pnumber));
+            listP.Add(++last_user_index, new PhoneBookC(last_user_index, fname, mname, lname, pnumber));
         }
 
         public void PrintInfo()
         {
-            for (int i = 0; i < list.Count; ++i) ;
+            //for (int i = 0; i < list.Count; ++i) ;
                 //Console.WriteLine(list[i].Info);
-
         }
 
         public void UpdateDataGrid(ref DataGridView dgv)
         {
             dgv.Rows.Clear();
 
-            for (int i = 0; i < list.Count; ++i)
+            foreach (KeyValuePair<int, PhoneBookC> pbc in listP)
             {
-                dgv.Rows.Add(list[i].ID.ToString(), list[i].FullName, list[i].PhoneNumber);
+                dgv.Rows.Add(pbc.Value.ID.ToString(), pbc.Value.FullName, pbc.Value.PhoneNumber);
             }
         }
 
         public void PCloseDB()
         {
             CloseDB();
+        }
+
+        public void RemoveContact(int id)
+        {
+            //MessageBox.Show(listP[id].FullName);
+            this.RemoveDataFromDB(id);
+            listP.Remove(id);
         }
     }
 }

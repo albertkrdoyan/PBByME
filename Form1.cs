@@ -30,7 +30,7 @@ namespace PBByME_V1._0
             pb.UpdateDataGrid(ref dataGridView1);
         }
 
-        private void addContactButton_Click(object sender, EventArgs e)
+        private void AddContactButton_Click(object sender, EventArgs e)
         {
             Form add_contact_form = new Form
             {
@@ -177,9 +177,23 @@ namespace PBByME_V1._0
 
             pb.AddUser(f_name, m_name, l_name, p_numb);
 
-            pb.UpdateDataGrid(ref dataGridView1); // to be changed
+            dataGridView1.Rows.Add(pb.ListP[pb.LastID].ID, pb.ListP[pb.LastID].FullName, pb.ListP[pb.LastID].PhoneNumber);
 
             button.Parent.Hide();
+        }
+
+        private void DeleteContactButton_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.Rows.Count == 0) return;
+
+            int index = dataGridView1.SelectedRows[0].Index;
+            int id = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells[0].Value);
+
+            if (MessageBox.Show($"Are you sure you want to delete \"{dataGridView1.Rows[index].Cells[1].Value}, {dataGridView1.Rows[index].Cells[2].Value}\" contact from the list?", "Remove", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
+            {
+                pb.RemoveContact(id);
+                dataGridView1.Rows.RemoveAt(index);
+            }            
         }
     }
 }
