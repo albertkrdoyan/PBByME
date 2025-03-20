@@ -117,6 +117,7 @@
             this.changeContactInfoButton.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.changeContactInfoButton.TabIndex = 3;
             this.changeContactInfoButton.TabStop = false;
+            this.changeContactInfoButton.Click += new System.EventHandler(this.AddEditContactButton_Click);
             // 
             // findContactButton
             // 
@@ -151,7 +152,7 @@
             this.addContactButton.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.addContactButton.TabIndex = 0;
             this.addContactButton.TabStop = false;
-            this.addContactButton.Click += new System.EventHandler(this.AddContactButton_Click);
+            this.addContactButton.Click += new System.EventHandler(this.AddEditContactButton_Click);
             // 
             // Form1
             // 

@@ -141,6 +141,20 @@ namespace PBByME_V1._0
             sqlite_cmd.ExecuteNonQuery();
         }
 
+        protected void EditDataInDB(int id, string d1, string d2, string d3, string d4)
+        {
+            if (!is_conn_open) return;
+
+            SQLiteCommand sqlite_cmd;
+            sqlite_cmd = sql_conn.CreateCommand();
+
+            sqlite_cmd.CommandText = "UPDATE users " +
+                $"SET 'firstName' = '{d1}', 'middleName' = '{d2}', 'lastName' = '{d3}', 'phoneNumber' = '{d4}' " +
+                $"WHERE id = {id};";
+
+            sqlite_cmd.ExecuteNonQuery();
+        }
+
         protected void RemoveDataFromDB(int id)
         {
             if (!is_conn_open) return;
@@ -176,6 +190,7 @@ namespace PBByME_V1._0
 
                 readdata += $", Phone: {sqlite_datareader.GetString(4)}";
 
+                MessageBox.Show(readdata);
                 //Console.WriteLine(readdata);
             }
         }
@@ -208,7 +223,7 @@ namespace PBByME_V1._0
 
     class PhoneBookSqlManager : DB
     {
-        private Dictionary<int, PhoneBookC> listP;
+        private readonly Dictionary<int, PhoneBookC> listP;
 
         public int LastID
         {
@@ -239,6 +254,16 @@ namespace PBByME_V1._0
         {
             this.InsertDataToDB(fname, mname, lname, pnumber);
             listP.Add(++last_user_index, new PhoneBookC(last_user_index, fname, mname, lname, pnumber));
+        }
+
+        public void EditUser(int id, string fname, string mname, string lname, string pnumber)
+        {
+            listP[id].FirstName = fname;
+            listP[id].MiddleName = mname;
+            listP[id].LastName = lname;
+            listP[id].PhoneNumber = pnumber;
+
+            this.EditDataInDB(id, fname, mname, lname, pnumber);
         }
 
         public void PrintInfo()
