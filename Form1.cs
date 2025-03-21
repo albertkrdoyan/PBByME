@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace PBByME_V1._0
+namespace PBByME_V1_0
 {
     public partial class Form1: Form
     {
@@ -32,9 +32,24 @@ namespace PBByME_V1._0
 
         private void AddEditContactButton_Click(object sender, EventArgs e)
         {
-            bool isadd = ((PictureBox)sender).Name == "addContactButton";
+            bool isadd = false;
+            int id = -1;
 
-            int id = isadd ? -1 : Convert.ToInt32(dataGridView1.SelectedRows[0].Cells[0].Value);
+            if (sender is PictureBox)
+            {
+                isadd = ((PictureBox)sender).Name == "addContactButton";
+
+                if (dataGridView1.Rows.Count == 0) return;
+
+                id = isadd ? -1 : Convert.ToInt32(dataGridView1.SelectedRows[0].Cells[0].Value);
+            }
+            else
+            {
+                DataGridView dgv = ((Button)sender).Parent.Controls.Find("resultDGV", true).FirstOrDefault() as DataGridView;
+                if (dgv.Rows.Count == 0) return;
+
+                id = Convert.ToInt32(dgv.SelectedRows[0].Cells[0].Value);
+            }
 
             Form contact_form = new Form
             {
@@ -136,16 +151,18 @@ namespace PBByME_V1._0
             {
                 Size = new Size(width, (int)(height * 2.75)),
                 Location = new Point(phone_number_textbox.Location.X - width, phone_num_label.Location.Y + phone_num_label.Height + distance * 2),
-                BackgroundImage = global::PBByME_V1._0.Properties.Resources.confirm_img,
+                BackgroundImage = global::PBByME_V1_0.Properties.Resources.confirm_img,
                 BackgroundImageLayout = ImageLayout.Zoom,
+                UseVisualStyleBackColor = true
             };
 
             Button close_button = new Button
             {
                 Size = new Size(tb_width, (int)(height * 2.75)),
                 Location = new Point(phone_number_textbox.Location.X, phone_num_label.Location.Y + phone_num_label.Height + distance * 2),
-                BackgroundImage = global::PBByME_V1._0.Properties.Resources.close_img,
+                BackgroundImage = global::PBByME_V1_0.Properties.Resources.close_img,
                 BackgroundImageLayout = ImageLayout.Zoom,
+                UseVisualStyleBackColor = true
             };
 
             if (isadd) confirm_button.MouseClick += new MouseEventHandler(Confirm_Add_button_click);
@@ -223,6 +240,199 @@ namespace PBByME_V1._0
                 pb.RemoveContact(id);
                 dataGridView1.Rows.RemoveAt(index);
             }
+        }
+
+        private void FindContactButton_Click(object sender, EventArgs e)
+        {
+            int form_width = 850, form_height = 500;
+            int st_x = 25, st_y = 25, dist = 10;
+
+            Font font = new Font("Microsoft Sans Serif", 15F, FontStyle.Regular);
+
+            Form find_contacts_form = new Form
+            {
+                Name = "find_contacts_form",
+                Text = "Find contact",
+                StartPosition = FormStartPosition.CenterParent,
+                Size = new Size(form_width, form_height),
+                BackColor = this.BackColor,
+                MaximizeBox = false,
+                ShowIcon = false,
+                FormBorderStyle = FormBorderStyle.FixedDialog
+            };
+
+            Label p_number_label = new Label
+            {
+                Name = "p_number_label",
+                Text = "Phone number: ",
+                Font = font,
+                Location = new Point(st_x, st_y),
+                Size = new Size(150, 25),
+            };
+
+            MaskedTextBox phone_number_textbox = new MaskedTextBox
+            {
+                Name = "phone_number_textbox",
+                Font = font,
+                Location = new Point(st_x + p_number_label.Width + dist, st_y - 3),
+                Width = 180,
+                Mask = "+(999) 00-00-00-00",
+                TabIndex = 1
+            };
+
+            Label name_label = new Label
+            {
+                Name = "name_label",
+                Text = "or/and Name: ",
+                Font = p_number_label.Font,
+                Size = p_number_label.Size,
+                Location = new Point(phone_number_textbox.Location.X + phone_number_textbox.Width + dist, st_y),
+            };
+
+            TextBox name_textbox = new TextBox
+            {
+                Name = "name_textbox",
+                Location = new Point(name_label.Location.X + name_label.Width + dist, phone_number_textbox.Location.Y),
+                Size = new Size((int)(phone_number_textbox.Width * 1.5), phone_number_textbox.Height),
+                Font = font,
+                TabIndex = 0
+            };
+
+            Button find_button = new Button
+            {
+                Name = "find_button",
+                Size = new Size((int)(form_width / 2.5), (int)(p_number_label.Height * 2.5)),
+                Location = new Point((form_width - (int)(form_width / 2.5)) / 2, phone_number_textbox.Location.Y + phone_number_textbox.Height + dist),
+                BackgroundImage = global::PBByME_V1_0.Properties.Resources.find_img,
+                BackgroundImageLayout = ImageLayout.Zoom,
+                UseVisualStyleBackColor = true,
+                TabIndex = 2
+            };
+
+            DataGridView resultDGV = new DataGridView
+            {
+                Name = "resultDGV",
+                Size = new Size(form_width - 3 * st_x, (int)(form_height / 2.2)),
+                Location = new Point(st_x, dist + find_button.Location.Y + find_button.Height),
+                TabIndex = 3,
+                AllowDrop = true,
+                AllowUserToAddRows = false,
+                AllowUserToDeleteRows = false,
+                AllowUserToResizeColumns = false,
+                AllowUserToResizeRows = false,
+                BackgroundColor = dataGridView1.BackgroundColor,
+                CellBorderStyle = dataGridView1.CellBorderStyle,
+                ClipboardCopyMode = dataGridView1.ClipboardCopyMode,
+                ColumnHeadersDefaultCellStyle = dataGridView1.ColumnHeadersDefaultCellStyle,
+                ColumnHeadersHeightSizeMode = dataGridView1.ColumnHeadersHeightSizeMode,
+                GridColor = System.Drawing.SystemColors.ActiveCaptionText,
+                ImeMode = System.Windows.Forms.ImeMode.NoControl,
+                MultiSelect = false,
+                ReadOnly = true,
+                RowHeadersVisible = false,
+                RowHeadersWidth = 51,
+                RowsDefaultCellStyle = dataGridView1.RowsDefaultCellStyle,                
+                ScrollBars = System.Windows.Forms.ScrollBars.Vertical,
+                SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect,
+            };
+
+            DataGridViewTextBoxColumn f_id_column = new DataGridViewTextBoxColumn 
+            {
+                FillWeight = 50F,
+                Frozen = true,
+                HeaderText = "ID",
+                MinimumWidth = 6,
+                Name = "id_column",
+                ReadOnly = true,
+                Width = 63,
+            };
+
+            DataGridViewTextBoxColumn f_name_column = new DataGridViewTextBoxColumn
+            {
+                FillWeight = 75F,
+                HeaderText = "Name",
+                MinimumWidth = 6,
+                Name = "name_column",
+                ReadOnly = true,
+                Width = 350,
+            };
+
+            DataGridViewTextBoxColumn f_phone_column = new DataGridViewTextBoxColumn 
+            {
+                AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill,
+                HeaderText = "Phone Number",
+                MinimumWidth = 6,
+                Name = "phone_column",
+                ReadOnly = true
+            };
+
+            resultDGV.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            f_id_column,
+            f_name_column,
+            f_phone_column});
+            resultDGV.RowTemplate.Height = 27;
+
+            Button found_contact_change_button = new Button
+            {
+                Name = "found_contact_change_button",
+                Location = new Point(st_x, resultDGV.Location.Y + resultDGV.Height + dist),
+                Size = new Size(form_width / 4, (int)(form_height / 7.3)),
+                BackgroundImage = global::PBByME_V1_0.Properties.Resources.change_img,
+                BackgroundImageLayout = ImageLayout.Zoom,
+                TabIndex = 4
+            };
+
+            Button found_contact_delete_button = new Button
+            {
+                Name = "found_contact_delete_button",
+                Location = new Point(found_contact_change_button.Location.X + found_contact_change_button.Width + dist, found_contact_change_button.Location.Y),
+                Size = found_contact_change_button.Size,
+                BackgroundImage = global::PBByME_V1_0.Properties.Resources.delete_img,
+                BackgroundImageLayout = ImageLayout.Zoom,
+                TabIndex = 5
+            };
+
+            Button cancel_button = new Button
+            {
+                Name = "cancel_button",
+                Location = new Point(resultDGV.Location.X + resultDGV.Width - found_contact_change_button.Width, found_contact_change_button.Location.Y),
+                Size = found_contact_change_button.Size,
+                BackgroundImage = global::PBByME_V1_0.Properties.Resources.cancel_img,
+                BackgroundImageLayout = ImageLayout.Zoom,
+                TabIndex = 6
+            };
+
+            cancel_button.MouseClick += new MouseEventHandler(Close_button_click);
+            find_button.MouseClick += new MouseEventHandler(Find_button_click);
+            
+            //found_contact_change_button.MouseClick += new MouseEventHandler(AddEditContactButton_Click);
+            //found_contact_delete_button.MouseClick += new MouseEventHandler(DeleteContactButton_Click);
+
+            find_contacts_form.Controls.Add(p_number_label);
+            find_contacts_form.Controls.Add(phone_number_textbox);
+            find_contacts_form.Controls.Add(name_label);
+            find_contacts_form.Controls.Add(name_textbox);
+            find_contacts_form.Controls.Add(find_button);
+            find_contacts_form.Controls.Add(resultDGV);
+            find_contacts_form.Controls.Add(found_contact_change_button);
+            find_contacts_form.Controls.Add(found_contact_delete_button);
+            find_contacts_form.Controls.Add(cancel_button);
+            find_contacts_form.ShowDialog();
+        }
+
+        private void Find_button_click(object sender, MouseEventArgs e)
+        {
+            Button f_button = (Button)sender;
+
+            string p_number = f_button.Parent.Controls.Find("phone_number_textbox", true).FirstOrDefault().Text as string;
+            string name = f_button.Parent.Controls.Find("name_textbox", true).FirstOrDefault().Text as string;
+            DataGridView dgv = f_button.Parent.Controls.Find("resultDGV", true).FirstOrDefault() as DataGridView;
+
+            List<PhoneBookC> list = pb.Search(name.ToLower(), p_number);
+
+            dgv.Rows.Clear();
+            foreach (PhoneBookC data in list)
+                dgv.Rows.Add(data.ID, data.FullName, data.PhoneNumber);
         }
     }
 }

@@ -5,8 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.SQLite;
 using System.Windows.Forms;
+using System.Diagnostics;
 
-namespace PBByME_V1._0
+namespace PBByME_V1_0
 {
     class PhoneBookC
     {
@@ -82,14 +83,14 @@ namespace PBByME_V1._0
         protected void CloseDB()
         {
             if (!is_conn_open) return;
-            //MessageBox.Show("HEllo");
+            
             is_conn_open = false;
             sql_conn.Close();
         }
 
         private void CreateConnection()
         {
-            //if (is_conn_open) return;
+            if (is_conn_open) return;
 
             sql_conn = new SQLiteConnection(
                 "Data Source=phonebookdb.db; Version = 3; New = True; Compress = True; "
@@ -191,7 +192,6 @@ namespace PBByME_V1._0
                 readdata += $", Phone: {sqlite_datareader.GetString(4)}";
 
                 MessageBox.Show(readdata);
-                //Console.WriteLine(readdata);
             }
         }
 
@@ -266,20 +266,12 @@ namespace PBByME_V1._0
             this.EditDataInDB(id, fname, mname, lname, pnumber);
         }
 
-        public void PrintInfo()
-        {
-            //for (int i = 0; i < list.Count; ++i) ;
-                //Console.WriteLine(list[i].Info);
-        }
-
         public void UpdateDataGrid(ref DataGridView dgv)
         {
             dgv.Rows.Clear();
 
             foreach (KeyValuePair<int, PhoneBookC> pbc in listP)
-            {
                 dgv.Rows.Add(pbc.Value.ID.ToString(), pbc.Value.FullName, pbc.Value.PhoneNumber);
-            }
         }
 
         public void PCloseDB()
@@ -289,9 +281,46 @@ namespace PBByME_V1._0
 
         public void RemoveContact(int id)
         {
-            //MessageBox.Show(listP[id].FullName);
             this.RemoveDataFromDB(id);
             listP.Remove(id);
+        }
+
+        public List<PhoneBookC> Search(string name, string p_num)
+        {
+            List<PhoneBookC> list = new List<PhoneBookC>();
+            List<PhoneBookC> f_list = new List<PhoneBookC>();
+            List<int> indices = new List<int>();
+
+            for (int i = 0; i < p_num.Length; ++i)
+            {
+                if (p_num[i] >= '0' && p_num[i] <= '9')
+                    indices.Add(i);
+            }
+
+            bool contains_in = true;
+            foreach (KeyValuePair<int, PhoneBookC> data in listP)
+            {
+                contains_in = true;
+                for (int i = 0; i < indices.Count; ++i)
+                {
+                    if (p_num[indices[i]] != data.Value.PhoneNumber[indices[i]])
+                    {
+                        contains_in = false;
+                        break;
+                    }
+                }
+
+                if (contains_in)
+                    f_list.Add(data.Value);
+            }
+
+            for (int i = 0; i < f_list.Count; ++i)
+            {
+                if (f_list[i].FullName.ToLower().Contains(name))
+                    list.Add(f_list[i]);
+            }
+
+            return list;
         }
     }
 }

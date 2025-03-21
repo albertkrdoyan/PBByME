@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace PBByME_V1._0.Properties {
+namespace PBByME_V1_0.Properties {
     using System;
     
     
@@ -73,9 +73,29 @@ namespace PBByME_V1._0.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap cancel_img {
+            get {
+                object obj = ResourceManager.GetObject("cancel_img", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap change_contactInfo_img {
             get {
                 object obj = ResourceManager.GetObject("change_contactInfo_img", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap change_img {
+            get {
+                object obj = ResourceManager.GetObject("change_img", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -113,9 +133,29 @@ namespace PBByME_V1._0.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap delete_img {
+            get {
+                object obj = ResourceManager.GetObject("delete_img", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap find_contact_img {
             get {
                 object obj = ResourceManager.GetObject("find_contact_img", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap find_img {
+            get {
+                object obj = ResourceManager.GetObject("find_img", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace PBByME_V1._0
+namespace PBByME_V1_0
 {
     static class Program
     {
