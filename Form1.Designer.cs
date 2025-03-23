@@ -54,7 +54,7 @@
             this.changeContactInfoButton.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.changeContactInfoButton.TabIndex = 3;
             this.changeContactInfoButton.TabStop = false;
-            this.changeContactInfoButton.Click += new System.EventHandler(this.AddEditContactButton_Click);
+            this.changeContactInfoButton.Click += delegate (object sender, System.EventArgs e) { AddEditContactButton_Click(sender, e, dataGridView1); };
             // 
             // findContactButton
             // 
@@ -78,7 +78,7 @@
             this.deleteContactButton.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.deleteContactButton.TabIndex = 1;
             this.deleteContactButton.TabStop = false;
-            this.deleteContactButton.Click += new System.EventHandler(this.DeleteContactButton_Click);
+            this.deleteContactButton.Click += delegate (object sender, System.EventArgs e) { DeleteContactButton_Click(sender, e, dataGridView1); };
             // 
             // addContactButton
             // 
@@ -90,7 +90,7 @@
             this.addContactButton.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.addContactButton.TabIndex = 0;
             this.addContactButton.TabStop = false;
-            this.addContactButton.Click += new System.EventHandler(this.AddEditContactButton_Click);
+            this.addContactButton.Click += delegate (object sender, System.EventArgs e) { AddEditContactButton_Click(sender, e, dataGridView1); };
             // 
             // phone_column
             // 
